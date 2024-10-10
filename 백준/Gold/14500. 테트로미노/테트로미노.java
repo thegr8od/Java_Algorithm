@@ -1,83 +1,93 @@
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int[] dx = { -1, 1, 0, 0 };
-	static int[] dy = { 0, 0, -1, 1 };
-	static int ans, N, M, fkSum;
-	static int[][] map;
-	static boolean[][] visited;
+    static int[] dx = { -1, 1, 0, 0 }; // 상, 하, 좌, 우
+    static int[] dy = { 0, 0, -1, 1 };
+    static int ans, N, M;
+    static int[][] map;
+    static boolean[][] visited;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		map = new int[N][M];
-		visited = new boolean[N][M];
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				visited[i][j] = true;
-				dfs(i,j,0,0);
-				fk(i,j);
-			}
-		}
-		System.out.println(ans);
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-	static void dfs(int x, int y, int d, int sum) {
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        map = new int[N][M];
+        visited = new boolean[N][M];
 
+        // 지도 입력 받기
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
 
-		if (d == 4) {
-			ans = Math.max(sum, ans);
-			return;
-		}
-		visited[x][y] = true;
+        // 각 위치에서 DFS 및 특수 모양 검사
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                dfs(i, j, 1, map[i][j]);
+                checkExtraShapes(i, j);
+            }
+        }
 
-		for (int i = 0; i < 4; i++) {
-			int nx = x + dx[i];
-			int ny = y + dy[i];
-			if (nx >= 0 && nx < N && ny >= 0 && ny < M && !visited[nx][ny]) {
-				dfs(nx, ny, d + 1, sum + map[x][y]);
-			}
-		}
-		visited[x][y]= false;
-	}
+        System.out.println(ans);
+    }
 
-	static void fk(int x, int y) {
-		int min =Integer.MAX_VALUE;
-		int d = 0;
-		int fkSum = map[x][y];
-		for (int i = 0; i < 4; i++) {
-			int nx = x + dx[i];
-			int ny = y + dy[i];
-			if (nx >= 0 && nx < N && ny >= 0 && ny < M) {
-				fkSum += map[nx][ny];
-				d++;
-				if(min > map[nx][ny]) {
-					min = map[nx][ny];
-				}
-			}
-		
-		}
-		if(d==4) {
-			fkSum -= min;
-		}
-		
-		ans = Math.max(ans, fkSum);
-	}
+    static void dfs(int x, int y, int depth, int sum) {
+        if (depth == 4) {
+            ans = Math.max(ans, sum);
+            return;
+        }
+
+        visited[x][y] = true;
+
+        // 상하좌우로 이동
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            // 범위 체크 및 방문 여부 확인
+            if (nx >= 0 && nx < N && ny >= 0 && ny < M && !visited[nx][ny]) {
+                dfs(nx, ny, depth + 1, sum + map[nx][ny]);
+            }
+        }
+
+        visited[x][y] = false; // 백트래킹
+    }
+
+    static void checkExtraShapes(int x, int y) {
+        int[][] shapes = {
+            { 0, -1, 0, 1, -1, 0 }, // ㅗ
+            { -1, 0, 1, 0, 0, 1 },  // ㅏ
+            { 0, -1, 0, 1, 1, 0 },  // ㅜ
+            { -1, 0, 1, 0, 0, -1 }  // ㅓ
+        };
+
+        for (int i = 0; i < shapes.length; i++) {
+            int sum = map[x][y];
+            boolean isValid = true;
+
+            for (int j = 0; j < 3; j++) { // j는 0부터 2까지
+                int nx = x + shapes[i][j * 2];
+                int ny = y + shapes[i][j * 2 + 1];
+
+                if (nx >= 0 && nx < N && ny >= 0 && ny < M) {
+                    sum += map[nx][ny];
+                } else {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (isValid) {
+                ans = Math.max(ans, sum);
+            }
+        }
+    }
 }
