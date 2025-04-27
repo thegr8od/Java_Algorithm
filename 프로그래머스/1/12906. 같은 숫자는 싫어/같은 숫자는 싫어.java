@@ -1,27 +1,32 @@
 import java.util.*;
+import java.util.*;
 
 public class Solution {
-    public int[] solution(int[] arr) {
+    public int[] solution(int []arr) {
+    
+        List<Integer> lst = new ArrayList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-        ArrayList<Integer> lst = new ArrayList<>();
-        int lastNum = 99;
-        for(int i =0; i<arr.length; i++){
-            queue.add(arr[i]);
+        for(int num : arr){
+            queue.add(num);
         }
         
+        
+        int lastNum = 99999;
         for(int i=0; i<arr.length; i++){
-            int num = queue.poll();
-            if(num != lastNum){
-                lst.add(num);
-                lastNum = num;
+            int now = queue.poll();
+            if(lastNum != now){
+                lst.add(now);
+                
             }
+            lastNum = now;
         }
         
         int[] answer = new int[lst.size()];
-        for(int i =0; i<lst.size();i++){
+        for(int i=0; i<lst.size(); i++){
             answer[i] = lst.get(i);
         }
+        
 
         return answer;
     }
