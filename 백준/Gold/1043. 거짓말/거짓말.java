@@ -1,78 +1,76 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import java.sql.Array;
 import java.util.*;
 
-
 public class Main {
-    static int N,M;
-    static int answer;
-    static boolean[] visited;
-    static boolean[] visitedM;
-    static ArrayList<ArrayList<Integer>> lst;
-    static HashSet<Integer> set;
+    static int N, M, answer;
+    static List<List<Integer>> parties;
+    static List<List<Integer>> personToParties;
+    static boolean[] visitedPerson, visitedParty;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 1) N, M 읽기
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        visited = new boolean[N+1];
-        visitedM = new boolean[M];
 
-        lst = new ArrayList<>();
-        set = new HashSet<>();
+        // 2) 진실을 아는 사람들 초기화
         st = new StringTokenizer(br.readLine());
-        int people = Integer.parseInt(st.nextToken());
-
-        for(int i=0; i<people; i++){
-            set.add(Integer.parseInt(st.nextToken()));
+        int cntKnow = Integer.parseInt(st.nextToken());
+        List<Integer> trueList = new ArrayList<>();
+        for (int i = 0; i < cntKnow; i++) {
+            trueList.add(Integer.parseInt(st.nextToken()));
         }
 
-        for(int i=0; i<M; i++){
+        // 3) 파티별 참석자, 사람→파티 인접 리스트 초기화
+        parties = new ArrayList<>(M);
+        personToParties = new ArrayList<>(N + 1);
+        for (int i = 0; i <= N; i++) personToParties.add(new ArrayList<>());
+
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int num = Integer.parseInt(st.nextToken());
-            ArrayList<Integer> miniLst = new ArrayList<>();
-            for(int j=0; j<num; j++){
-
-                miniLst.add(Integer.parseInt(st.nextToken()));
+            int k = Integer.parseInt(st.nextToken());
+            List<Integer> list = new ArrayList<>(k);
+            for (int j = 0; j < k; j++) {
+                int p = Integer.parseInt(st.nextToken());
+                list.add(p);
+                personToParties.get(p).add(i);
             }
-            lst.add(miniLst);
-
+            parties.add(list);
         }
 
+        // 4) 상태 배열 초기화
+        visitedPerson = new boolean[N + 1];
+        visitedParty  = new boolean[M];
         answer = M;
-        bfs();
 
+        // 5) DFS 전파 시작
+        for (int p : trueList) {
+            if (!visitedPerson[p]) {
+                dfsPerson(p);
+            }
+        }
+
+        // 6) 결과 출력
         System.out.println(answer);
-
-
     }
 
-    public static void bfs(){
-        Queue<Integer> queue = new ArrayDeque<>();
-        for(int p : set){
-            visited[p] = true;
-            queue.add(p);
-        }
-
-        while(!queue.isEmpty()){
-            int now = queue.poll();
-            for (int i =0; i<M; i++){
-                if(!visitedM[i] && lst.get(i).contains(now)){
-                    visitedM[i] = true;
-                    answer--;
-
-                    for (int np : lst.get(i)) {
-                        if (!visited[np]) {
-                            visited[np] = true;
-                            queue.add(np);
-                        }
+    // 사람 p가 진실을 전파하는 재귀 함수
+    static void dfsPerson(int p) {
+        visitedPerson[p] = true;
+        for (int pi : personToParties.get(p)) {
+            if (!visitedParty[pi]) {
+                visitedParty[pi] = true;
+                answer--;
+                for (int np : parties.get(pi)) {
+                    if (!visitedPerson[np]) {
+                        dfsPerson(np);
                     }
                 }
             }
         }
     }
-
 }
