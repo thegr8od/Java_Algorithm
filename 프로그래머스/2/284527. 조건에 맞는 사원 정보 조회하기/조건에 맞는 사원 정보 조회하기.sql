@@ -1,7 +1,8 @@
-select sum(g.score) as score, e.emp_no, e.emp_name, e.position, e.email
-from hr_employees e
-join hr_grade g on e.emp_no = g.emp_no
-group by g.emp_no, g.year
-having year like '2022'
-order by score desc
-limit 1
+select b.score, a.emp_no, a.emp_name, a.position, a.email
+from hr_employees a
+join (select emp_no, sum(score) as score
+     from hr_grade
+     group by emp_no
+     order by sum(score) desc
+     limit 1) b
+on a.emp_no = b.emp_no
