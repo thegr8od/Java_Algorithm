@@ -22,27 +22,26 @@ class Solution {
     }
     
     public void bfs(int[][] maps, int[][] visited){
-        Queue<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{0,0});
+        Queue<int[] > queue = new ArrayDeque<>();
+        queue.add(new int[] {0,0});
         visited[0][0] = 1;
+        
         while(!queue.isEmpty()){
-            int[] now = queue.poll();
-            int x = now[0];
-            int y = now[1];
-
+            int[] state = queue.poll();
+            int x = state[0];
+            int y = state[1];
             for(int i =0; i<4; i++){
                 int nx = x + dx[i];
                 int ny = y + dy[i];
+                if(nx<0 || nx>=maps.length|| ny<0 || ny>=maps[0].length) continue;
                 
-                if(nx < 0 || nx > maps.length -1 || ny <0 || ny >maps[0].length-1)
-                    continue;
-                
-                if (visited[nx][ny] == 0 && maps[nx][ny] == 1){
+                if(visited[nx][ny] ==0 && maps[nx][ny] == 1){
                     visited[nx][ny] = visited[x][y] + 1;
-                    queue.add(new int[]{nx,ny});
+                    queue.add(new int[] {nx,ny});
+                    
                 }
             }
+        }
             
         }
-    }
 }
