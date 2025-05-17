@@ -24,24 +24,34 @@ public class Main {
            }
         }
 
-        for(int i =0; i<data.size(); i++){
-            if(data.get(i) == 1){
+        int i =0;
+        while(oneC < one/2) {
+
+            if (data.get(i) == 1) {
                 data.remove(i);
                 oneC++;
-                if(oneC == one/2) break;
+                i=0;
+            }
+            else{
+                i++;
             }
         }
 
-        for(int i =data.size()-1; i>=0; i--){
-            if(data.get(i) == 0){
-                data.remove(i);
+        int j =data.size()-1;
+        while(zeroC < zero/2){
+
+            if(data.get(j) == 0){
+                data.remove(j);
                 zeroC++;
-                if(zeroC == zero/2) break;
+                j = data.size()-1;
+            }
+            else{
+                j--;
             }
         }
 
-        for(int i : data){
-            System.out.print(i);
+        for(int num : data){
+            System.out.print(num);
         }
 
     }
