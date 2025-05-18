@@ -72,20 +72,19 @@ public class Main {
     }
 
     public static int dijkstra(int start, int end){
-        Arrays.fill(dist,INF);
-
+        Arrays.fill(dist, INF);
+        check = new boolean[N+1];
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        boolean[] check = new boolean[N + 1];
         pq.add(new Node(start, 0));
         dist[start] = 0;
 
-        while (!pq.isEmpty()) {
+        while(!pq.isEmpty()){
             Node curNode = pq.poll();
             int cur = curNode.end;
 
-            if(!check[cur]) {
-                check[cur] = true;
 
+            if(!check[cur]){
+                check[cur] = true;
                 for(Node node : lst.get(cur)){
                     if(!check[node.end] && dist[node.end] > dist[cur] + node.weight){
                         dist[node.end] = dist[cur] + node.weight;
@@ -93,9 +92,10 @@ public class Main {
                     }
                 }
             }
-        }
 
+        }
         return dist[end];
+
     }
 
 }
