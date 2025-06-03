@@ -1,8 +1,7 @@
--- 코드를 입력하세요
-SELECT a.food_type, a.rest_id, a.rest_name, a.favorites
+SELECT b.food_type, a.rest_id, a.rest_name, b.max as favorites
 from rest_info a
-join (select food_type, max(favorites) as maxV
+join (select food_type, max(favorites) as max
      from rest_info
      group by food_type) b
-on a.food_type = b.food_type and a.favorites = b.maxV
-order by food_type desc
+on a.favorites = b.max and a.food_type = b.food_type
+order by b.food_type desc
