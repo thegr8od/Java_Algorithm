@@ -1,8 +1,7 @@
 -- 코드를 입력하세요
-SELECT i.name, i.datetime
-FROM animal_ins i
-LEFT JOIN animal_outs o
-ON i.animal_id = o.animal_id
-where o.animal_id is null
-order by i.datetime
+SELECT name,datetime
+from animal_ins
+where animal_id not in (select animal_id
+                       from animal_outs)
+order by datetime
 limit 3
