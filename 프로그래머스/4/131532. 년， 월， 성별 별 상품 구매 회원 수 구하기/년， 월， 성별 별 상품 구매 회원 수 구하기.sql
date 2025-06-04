@@ -1,22 +1,22 @@
 -- 코드를 입력하세요
-# SELECT year(sales_date) as year, month(sales_date) as month, b.gender as gender, count(b.gender) as users
-# from online_sale a
-# join user_info b
-# on a.user_id = b.user_id
-# where gender is not null
-# group by year(sales_date), month(sales_date), b.gender
-# order by year(sales_date), month(sales_date)
-
-select b.year, b.month, a.gender, count(*) as users
-from user_info a
-join (select year(sales_date) as year, month(sales_date) as month, user_id
-      from online_sale
-      group by year, month, user_id
-      order by year,month) b
+SELECT year(sales_date) as year, month(sales_date) as month, b.gender as gender, count(distinct b.user_id) as users
+from online_sale a
+join user_info b
 on a.user_id = b.user_id
 where gender is not null
-group by b.year, b.month, a.gender
-order by b.year, b.month, a.gender
+group by year(sales_date), month(sales_date), b.gender
+order by year(sales_date), month(sales_date)
+
+# select b.year, b.month, a.gender, count(*) as users
+# from user_info a
+# join (select year(sales_date) as year, month(sales_date) as month, user_id
+#       from online_sale
+#       group by year, month, user_id
+#       order by year,month) b
+# on a.user_id = b.user_id
+# where gender is not null
+# group by b.year, b.month, a.gender
+# order by b.year, b.month, a.gender
 
 
 # 1	2	26	1	2022-01-01 00:00:00
