@@ -3,33 +3,30 @@ import java.util.*;
 class Solution {
     public int solution(int[] citations) {
         int answer = 0;
-        Integer[] data = new Integer[citations.length];
-        
-        for (int i =0; i<citations.length; i++){
-            data[i] = citations[i];
-        }
-        
-        Arrays.sort(data);
-        int last_num = data[data.length-1];
-        
-    
-        for(int i=0; i<last_num; i++){
-            int cnt =0;
-            int r_cnt = 0;
-            for (int j=0; j<data.length; j++){
-                if(data[j]>=i){
-                    cnt++;
+        // n편 중, h번 이상 인용된 논문이 h편 이상, 나머지 논문이 h번 이하 인용
+        // h의 최댓값 구하기
+        Arrays.sort(citations);
+        int n = 0;
+        while(true){
+            int count = 0;
+            for(int i=citations.length-1; i>=0; i--){
+                if(citations[i] >= n){
+                    count++;
                 }
                 else{
-                    r_cnt++;
+                    break;
                 }
             }
-            if(cnt>=i && r_cnt<=i){
-                answer = i;
+            if(count>=n && citations.length - count <= n){
+                answer = Math.max(answer, n);
+                n++;
             }
+            else{
+                break;
+            }
+            
         }
         
         return answer;
-        
     }
 }
