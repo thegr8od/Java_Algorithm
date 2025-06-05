@@ -23,7 +23,7 @@ class Solution {
         
     }
     
-    public static void dfs(String str, int depth, String numbers){
+    static void dfs(String str, int depth, String numbers){
         
         if(depth > len){
             return;
@@ -43,7 +43,7 @@ class Solution {
     
     
     
-    public static boolean isPrime(int n){
+    static boolean isPrime(int n){
         if(n<2){
             return false;
         }    
