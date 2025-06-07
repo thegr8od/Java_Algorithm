@@ -1,45 +1,39 @@
+import java.util.*;
+
+
 class Solution {
-    static int answer = 99999999;
     static boolean[] visited;
+    static int answer = Integer.MAX_VALUE;
     public int solution(String begin, String target, String[] words) {
-        
-       visited = new boolean[words.length];
+        visited = new boolean[words.length];
         dfs(begin, target, words, 0);
-        if(answer > 999999){
-            return 0;
-        }
-        else{
+        
+        answer = answer == Integer.MAX_VALUE  ? 0 : answer;
         return answer;
-        }
     }
     
-    public static void dfs(String begin, String target, String[] words, int cnt){
-        if(begin.equals(target)){
-            
-            answer = Math.min(answer,cnt);
+    static void dfs(String now, String target, String[] words, int d){
+        
+        
+        
+        if(now.equals(target)){
+            answer = Math.min(answer,d);
             return;
         }
         
-        for(int i =0; i<words.length; i++){
-            int k = 0;
-            
-            if(visited[i]) continue;
-            
-            for(int j=0; j<begin.length(); j++){
-                if(begin.charAt(j) == words[i].charAt(j)){
-                    k++;
+        
+        for(int i=0; i<words.length; i++){
+            int cnt = 0;
+            for(int j=0; j<now.length(); j++){
+                if(now.charAt(j)==words[i].charAt(j)) cnt++;
+                if(cnt == now.length()-1 && !visited[i]){
+                    visited[i] = true;
+                    dfs(words[i], target, words, d+1);
+                    visited[i] = false;
+                    
                 }
-            
-            }
-            
-            if(k == begin.length()-1){
-                visited[i] = true;
-                dfs(words[i], target, words, cnt+1);
-                visited[i] = false;
             }
             
         }
     }
-        
-        
 }
