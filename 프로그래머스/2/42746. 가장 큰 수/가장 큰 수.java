@@ -2,25 +2,29 @@ import java.util.*;
 
 class Solution {
     public String solution(int[] numbers) {
+        String answer = "";
+        String[] str = {"30", "3", "36", "34", "6", "33", "31"};
+        Arrays.sort(str, (a,b) -> b.compareTo(a));
+        for(String s : str){
+            System.out.println(s);
+        }
+        String[] ans = new String[numbers.length];
+        for(int i=0; i<numbers.length; i++){
+            ans[i] = String.valueOf(numbers[i]);
+        }
+        Arrays.sort(ans, (a,b) -> (b+a).compareTo(a+b));
+           
+        //347, 56, 32
         
-        String[] data = new String[numbers.length];
-        
-        for(int i=0; i<data.length; i++){
-            data[i] = String.valueOf(numbers[i]);
+        for(int i=0; i<ans.length; i++){
+            answer += ans[i];
         }
         
-        Arrays.sort(data, (o1,o2) -> (o2+o1).compareTo(o1+o2));
-        
-        if(data[0].equals("0")) return "0";
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for(String str : data){
-            sb.append(str);
+        if(ans[0].equals("0")){
+            return "0";
         }
-        
-        
-        return sb.toString();
-        
+        else{
+        return answer;
+    }
     }
 }
