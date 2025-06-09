@@ -1,60 +1,66 @@
-import java.util.*;
-
-
 class Solution {
     public int[] solution(int[] answers) {
-        ArrayList<Integer> maxScore = new ArrayList<>();
-        int[] first = {1, 2, 3, 4, 5};
-        int[] second = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] third = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        int f_idx = 0;
-        int s_idx = 0;
-        int t_idx = 0;
-        int f_cnt =0;
-        int s_cnt =0;
-        int t_cnt = 0;
         
-        for(int i =0; i<answers.length; i++){
-            if(f_idx >4){
-                f_idx = 0;
-            }
-            if(s_idx>7){
-                s_idx = 0;
-            }
-            if(t_idx>9){
-                t_idx = 0;
-            }
-            if(first[f_idx] == answers[i]){
-                f_cnt++;
-                System.out.println("하이");
-            }
-            if(second[s_idx] == answers[i])
-                s_cnt++;
-            if(third[t_idx] == answers[i])
-                t_cnt++;
-            
-            f_idx++;
-            s_idx++;
-            t_idx++;
-            
-        }
-
-        int maxVal = Math.max(t_cnt, Math.max(f_cnt, s_cnt));
+        int[] one = {1,2,3,4,5};
+        int[] two = {2,1,2,3,2,4,2,5};
+        int[] three = {3,3,1,1,2,2,4,4,5,5};
         
-        if(maxVal == f_cnt){
-            maxScore.add(1);
+        int oneIdx = 0;
+        int twoIdx = 0;
+        int threeIdx = 0;
+        
+        int oneAns = 0;
+        int twoAns = 0;
+        int threeAns = 0;
+        
+        for(int num : answers){
+            if(one[oneIdx++ % one.length] == num){
+                oneAns++;
+                if(oneIdx == one.length){
+                    oneIdx = 0;
+                }
+            }
+            
+            if(two[twoIdx++ % two.length] == num){
+                twoAns++;
+                if(twoIdx == two.length){
+                    twoIdx = 0;
+                }
+            }
+            
+            if(three[threeIdx++% three.length] == num){
+                threeAns++;
+                if(threeIdx == three.length){
+                    threeIdx = 0;
+                }
+            }
+            
         }
-        if(maxVal == s_cnt){
-            maxScore.add(2);
+        int maxNum = Math.max(Math.max(oneAns, twoAns), threeAns);
+        
+        int size = 0;
+        if(maxNum == oneAns){
+            size++;
         }
-        if(maxVal == t_cnt){
-            maxScore.add(3);
+        if(maxNum == twoAns){
+            size++;
         }
-
-        int[] answer = new int[maxScore.size()];
-        for (int i =0; i<answer.length; i++){
-            answer[i] = maxScore.get(i);
+        if(maxNum == threeAns){
+            size++;
         }
+        int idx = 0;
+        int[] answer = new int[size];
+        if(maxNum == oneAns){
+            answer[idx++] = 1;
+        }
+        if(maxNum == twoAns){
+            answer[idx++] = 2;
+        }
+        if(maxNum == threeAns){
+            answer[idx++] = 3;
+        }
+        
+        
         
         return answer;
     }
