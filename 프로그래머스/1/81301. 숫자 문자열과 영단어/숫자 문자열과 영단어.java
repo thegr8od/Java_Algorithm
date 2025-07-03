@@ -1,14 +1,25 @@
 class Solution {
     public int solution(String s) {
         int answer = 0;
-        String[] arr = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-        
-        for(int i=0; i<arr.length; i++){
-            if(s.contains(arr[i])){
-                s = s.replace(arr[i], String.valueOf(i));
+        String ans = "";
+        String temp = "";
+        String[] numbers = {"zero","one","two","three","four","five","six","seven","eight","nine"};
+        for(int i=0; i<s.length(); i++){
+            if(Character.isDigit(s.charAt(i))){
+                ans += s.charAt(i);
+            }
+            else{
+                temp += s.charAt(i);
+            }
+            for(int j=0; j<10; j++){
+                    if(temp.equals(numbers[j])){
+                        ans += j;
+                        temp = "";
+                    }
+                
             }
         }
-        
-        return Integer.parseInt(s);
+        answer = Integer.parseInt(ans);
+        return answer;
     }
 }
