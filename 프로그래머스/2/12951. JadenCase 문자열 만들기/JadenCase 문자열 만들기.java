@@ -1,34 +1,25 @@
 class Solution {
     public String solution(String s) {
         String answer = "";
+        String[] arr = s.split(" ");
         
-        String[] splitS = s.split(" ");
-        for(String now : splitS){
-            if(now.length() == 0){
+        for(int i=0; i<arr.length; i++){
+            String now = arr[i];
+            
+            if(arr[i].length() == 0){
                 answer += " ";
             }
             else{
-                if(now.charAt(0) >= 'A' && now.charAt(0) <= 'Z'){
-                    answer += Character.toUpperCase(now.charAt(0));
-                }
-                else if(now.charAt(0) >= 'a' && now.charAt(0) <= 'z'){
-                    answer += Character.toUpperCase(now.charAt(0));
-                }
-                else{
-                    answer += now.charAt(0);
-                }
-                
-                for(int i=1; i<now.length(); i++){
-                    answer += Character.toLowerCase(now.charAt(i));
-                }
+                answer += now.substring(0,1).toUpperCase();
+                answer += now.substring(1, now.length()).toLowerCase();
                 answer += " ";
             }
         }
-
-        if (!s.endsWith(" ")) {
-            answer = answer.substring(0, answer.length() - 1);
+        
+        if(s.substring(s.length()-1, s.length()).equals(" ")){
+            return answer;
         }
-
-        return answer;
+        
+        return answer.substring(0, answer.length()-1);
     }
 }
