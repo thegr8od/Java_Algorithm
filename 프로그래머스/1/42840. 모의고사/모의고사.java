@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] answers) {
         
@@ -9,59 +11,29 @@ class Solution {
         int twoIdx = 0;
         int threeIdx = 0;
         
-        int oneAns = 0;
-        int twoAns = 0;
-        int threeAns = 0;
-        
+        int oneC = 0;
+        int twoC = 0;
+        int threeC = 0;
         for(int num : answers){
-            if(one[oneIdx++ % one.length] == num){
-                oneAns++;
-                if(oneIdx == one.length){
-                    oneIdx = 0;
-                }
-            }
-            
-            if(two[twoIdx++ % two.length] == num){
-                twoAns++;
-                if(twoIdx == two.length){
-                    twoIdx = 0;
-                }
-            }
-            
-            if(three[threeIdx++% three.length] == num){
-                threeAns++;
-                if(threeIdx == three.length){
-                    threeIdx = 0;
-                }
-            }
-            
+            if(one[oneIdx++ % 5] == num) oneC++;
+            if(two[twoIdx++ % 8] == num) twoC++;
+            if(three[threeIdx++ % 10] == num) threeC++;
         }
-        int maxNum = Math.max(Math.max(oneAns, twoAns), threeAns);
         
-        int size = 0;
-        if(maxNum == oneAns){
-            size++;
-        }
-        if(maxNum == twoAns){
-            size++;
-        }
-        if(maxNum == threeAns){
-            size++;
-        }
-        int idx = 0;
-        int[] answer = new int[size];
-        if(maxNum == oneAns){
-            answer[idx++] = 1;
-        }
-        if(maxNum == twoAns){
-            answer[idx++] = 2;
-        }
-        if(maxNum == threeAns){
-            answer[idx++] = 3;
-        }
+        int maxC = Math.max(oneC, Math.max(twoC, threeC));
+        List<Integer> lst = new ArrayList<>();
+        
+        if(maxC == oneC) lst.add(1);
+        if(maxC == twoC) lst.add(2);
+        if(maxC == threeC) lst.add(3);
         
         
         
+        int[] answer = new int[lst.size()];
+        
+        for(int i=0; i<answer.length; i++){
+            answer[i] = lst.get(i);
+        }
         return answer;
     }
 }
