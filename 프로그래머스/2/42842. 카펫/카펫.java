@@ -4,16 +4,18 @@ class Solution {
         
         int allCnt = brown + yellow;
         
-        for (int i =3; i<allCnt; i++){
+        for(int i=3; i<allCnt; i++){
             int row = i;
             int col = allCnt / row;
             
-            if(row>=col){
-                if((row-2) * (col-2) == yellow){
-                    answer[0] = row;
-                    answer[1] = col;
-                }
+            if((row-2) * (col-2) == yellow){
+                answer[0] = row;
+                answer[1] = col;
             }
+            
+            
+            
+            
         }
         
         return answer;
