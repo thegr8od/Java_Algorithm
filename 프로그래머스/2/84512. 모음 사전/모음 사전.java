@@ -1,24 +1,31 @@
 import java.util.*;
 
 class Solution {
-    static String[] chars = {"A", "E", "I", "O", "U"};
-    static ArrayList<String> lst = new ArrayList<>();
+    static String[] words = {"A", "E", "I", "O", "U"};
+    static List<String> lst;
     public int solution(String word) {
+        int answer = 0;
+        lst = new ArrayList<>();
         dfs("",0);
-        Collections.sort(lst);
-        return lst.indexOf(word) + 1;
+        for(int i=0; i<lst.size(); i++){
+            if(word.equals(lst.get(i))){
+                answer = i;
+                break;
+            }
+        }
+        return answer;
     }
     
-    static void dfs(String current, int depth){
+    public void dfs (String now, int d){
         
-      if (depth > 5) return;
-    
-        if (!current.isEmpty()) {
-            lst.add(current);
+        lst.add(now);
+        
+        if(d==5){
+            return;
         }
         
-        for (int i =0; i < chars.length; i++){
-            dfs(current + chars[i], depth + 1);
+        for(int i=0; i<5; i++){
+            dfs(now+words[i], d+1);
         }
-    }   
+    }
 }
