@@ -1,7 +1,5 @@
-select a.cart_id
-from (select cart_id, group_concat(name) as name
-from cart_products
-group by cart_id
-      ) a
-where name like '%Yogurt%' and name like '%Milk%'
-order by a.cart_id
+SELECT DISTINCT(m.CART_ID)
+FROM CART_PRODUCTS m
+JOIN CART_PRODUCTS y ON m.CART_ID = y.CART_ID
+WHERE m.NAME = 'Milk' AND y.NAME = 'Yogurt'
+ORDER BY CART_ID ASC
