@@ -3,20 +3,19 @@ import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
         boolean answer = true;
-        Map<String, Integer> map = new HashMap<>();
-        
-        for(String str : phone_book){
-            map.put(str, str.length());
+        Set<String> set = new HashSet<>();
+        for(String number : phone_book){
+            set.add(number);
         }
         
-        for(int i=0; i<phone_book.length; i++){
-            for(int j=0; j<phone_book[i].length();j++){
-                if(map.containsKey(phone_book[i].substring(0,j))){
-                    return false;
+        for(String number : phone_book){
+            for(int i=0; i<number.length(); i++){
+                if(set.contains(number.substring(0,i))){
+                    answer = false;
                 }
             }
         }
         
-        return true;
+        return answer;
     }
 }
