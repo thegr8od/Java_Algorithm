@@ -2,60 +2,40 @@ import java.util.*;
 
 class Solution {
     static boolean[] visited;
-    static HashSet<Integer> set;
-    static int len;
+    static Set<Integer> set;
+    static int answer;
     public int solution(String numbers) {
-        int answer = 0;
-        len = numbers.length();
-        visited = new boolean[len];
         set = new HashSet<>();
-        dfs("",0,numbers);
-
-        
-        for(int num : set){
-            if(isPrime(num)) answer++;
-        }
-        
-        for(int num : set){
-            System.out.println(num);
+        visited = new boolean[numbers.length()];
+        dfs(0,numbers,"");
+        for(int i : set){
+            if(i>1) isPrime(i);
         }
         return answer;
-        
     }
     
-    static void dfs(String str, int depth, String numbers){
+    public void dfs(int idx, String numbers, String now){
         
-        if(depth > len){
-            return;
-        }
+        if(now.length()>0) set.add(Integer.parseInt(now));
         
-        for(int i=0; i<len; i++){
-            if(!visited[i]){
+        for(int i=0; i<numbers.length(); i++){
+            if(!visited[i]) {
                 visited[i] = true;
-                String now = str + numbers.charAt(i);
-                set.add(Integer.parseInt(now));
-                dfs(now, depth+1, numbers);
+                dfs(i, numbers, now + numbers.charAt(i));
                 visited[i] = false;
             }
         }
-        
     }
     
-    
-    
-    static boolean isPrime(int n){
-        if(n<2){
-            return false;
-        }    
+    public void isPrime(int n){
         
-        for(int i=2; i<=(int)Math.sqrt(n); i++){
+        for(int i=2; i<=Math.sqrt(n); i++){
             if(n%i == 0){
-                return false;
+                return;
             }
         }
         
-        return true;
+        answer++;
         
     }
-    
 }
