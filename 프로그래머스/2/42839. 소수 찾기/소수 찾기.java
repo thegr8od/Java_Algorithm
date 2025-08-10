@@ -1,16 +1,18 @@
 import java.util.*;
 
 class Solution {
-    static boolean[] visited;
     static Set<Integer> set;
     static int answer;
+    static boolean[] visited;
     public int solution(String numbers) {
         set = new HashSet<>();
         visited = new boolean[numbers.length()];
-        dfs(0,numbers,"");
+        dfs(0, numbers, "");
         for(int i : set){
             if(i>1) isPrime(i);
         }
+    
+        
         return answer;
     }
     
@@ -19,7 +21,7 @@ class Solution {
         if(now.length()>0) set.add(Integer.parseInt(now));
         
         for(int i=0; i<numbers.length(); i++){
-            if(!visited[i]) {
+            if(!visited[i]){
                 visited[i] = true;
                 dfs(i, numbers, now + numbers.charAt(i));
                 visited[i] = false;
@@ -36,6 +38,5 @@ class Solution {
         }
         
         answer++;
-        
     }
 }
