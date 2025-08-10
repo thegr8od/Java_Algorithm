@@ -1,9 +1,7 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[][] sizes) {
         int answer = 0;
-        int[][] data = new int[sizes.length][sizes.length];
+        
         for(int i=0; i<sizes.length; i++){
             if(sizes[i][1] > sizes[i][0]){
                 int temp = sizes[i][0];
@@ -11,12 +9,16 @@ class Solution {
                 sizes[i][1] = temp;
             }
         }
+        
         int maxX = 0;
         int maxY = 0;
         for(int i=0; i<sizes.length; i++){
             maxX = Math.max(maxX, sizes[i][0]);
             maxY = Math.max(maxY, sizes[i][1]);
         }
+        
         return maxX * maxY;
+        
+        
     }
 }
