@@ -2,42 +2,37 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int len = progresses.length;
-        ArrayList<Integer> lst = new ArrayList<>();
-        // Queue<Integer> queue = new ArrayDeque<>();
-        // for(int i=0; i<len; i++){
-        //     queue.add(progresses[i]);
-        // }
         
-        for(int i=0; i<len; i++){
-            int cnt = 1;
-            while(true){
-                int now = progresses[i];
-                if(now >= 100){
-                    break;
-                }
-                for(int j=i; j<len; j++){
-                    progresses[j] += speeds[j];
-                }
+        int index = 0;
+        int totalSize =0;
+        List<Integer> lst = new ArrayList<>();
+        while(true){
+            if(index == progresses.length) break;
+            int size = 0;
+            for(int i =0; i<progresses.length; i++){
+                progresses[i] += speeds[i];
             }
-            
-            for(int k=i+1; k<len; k++){
-                if(progresses[k] >= 100){
-                    cnt++;
-                    i++;
+            boolean flag = false;
+            while(true){
+                if(index == progresses.length) break;
+                if(progresses[index] >= 100){
+                    size++;
+                    index++;
+                    flag = true;
                 }
                 else{
                     break;
                 }
             }
-            lst.add(cnt);
+            
+            if(flag){
+                lst.add(size);
+            }
         }
-       
         int[] answer = new int[lst.size()];
-        for(int i=0; i<lst.size(); i++){
+        for(int i =0; i<lst.size(); i++){
             answer[i] = lst.get(i);
         }
-        
         return answer;
     }
 }
