@@ -1,14 +1,14 @@
 import java.util.*;
 
 class Solution {
-    static String[] words = {"A", "E", "I", "O", "U"};
-    static List<String> lst;
+    static char[] alp = {'A','E','I','O','U'};
+    static List<String> lst = new ArrayList<>();
     public int solution(String word) {
         int answer = 0;
-        lst = new ArrayList<>();
-        dfs("",0);
+        dfs(0,"");
+        
         for(int i=0; i<lst.size(); i++){
-            if(word.equals(lst.get(i))){
+            if(lst.get(i).equals(word)){
                 answer = i;
                 break;
             }
@@ -16,16 +16,17 @@ class Solution {
         return answer;
     }
     
-    public void dfs (String now, int d){
+    static void dfs(int d, String now){
         
-        lst.add(now);
-        
-        if(d==5){
+        if(d>5){
             return;
         }
         
+        lst.add(now);
+
+        
         for(int i=0; i<5; i++){
-            dfs(now+words[i], d+1);
+            dfs(d+1,now+alp[i]);
         }
     }
 }
