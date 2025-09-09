@@ -1,48 +1,52 @@
 import java.util.*;
 
 class Solution {
+    static int answer;
+    static int maxNum;
+    static List<Integer>[] lst;
     public int solution(int n, int[][] edge) {
-        int answer = 0;
-        List<Integer>[] lst = new ArrayList[n+1];
-        boolean[] visited = new boolean[n+1];
-        int[] arr = new int[n+1];
-        Queue<Integer> queue = new ArrayDeque<>();
-        
+        lst = new ArrayList[n+1];
         for(int i=0; i<n+1; i++){
             lst[i] = new ArrayList<>();
         }
-        
-        for(int i=0; i<edge.length; i++){
-            int a = edge[i][0];
-            int b = edge[i][1];
+        for(int[] now : edge){
+            int a = now[0];
+            int b = now[1];
             lst[a].add(b);
             lst[b].add(a);
         }
         
-        queue.add(1);
-        visited[1] = true;
+        int[] dist = new int[n+1];
+        bfs(dist, 0, 1);
+        dist[1] = 0;
+        
+        for(int n1 : dist){
+            maxNum = Math.max(n1, maxNum);
+        }
+        
+        
+        for(int n2: dist){
+            if(n2 == maxNum) answer++;
+        }
+        return answer;
+    }
+    
+    static void bfs (int[] dist, int d, int now){
+        
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(now);
         
         while(!queue.isEmpty()){
-            int num = queue.poll();
-            for(int next : lst[num]){
-                if(!visited[next]){
-                    queue.add(next);
-                    visited[next] = true;
-                    arr[next] = arr[num] + 1;
+            int cur = queue.poll();
+            for(int num : lst[cur]){
+                if(dist[num] == 0){
+                    dist[num] = dist[cur] + 1;
+                    queue.add(num);
                 }
             }
         }
         
-        Arrays.sort(arr);
-        int max = arr[n];
-        
-        for(int num : arr){
-            if(num == max){
-                answer++;
-            }
-        }
-        
-        
-        return answer;
     }
+    
+
 }
