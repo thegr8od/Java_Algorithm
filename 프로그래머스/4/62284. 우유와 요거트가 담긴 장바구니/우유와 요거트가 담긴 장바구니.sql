@@ -1,5 +1,8 @@
-SELECT DISTINCT(m.CART_ID)
-FROM CART_PRODUCTS m
-JOIN CART_PRODUCTS y ON m.CART_ID = y.CART_ID
-WHERE m.NAME = 'Milk' AND y.NAME = 'Yogurt'
-ORDER BY CART_ID ASC
+select distinct(a.cart_id)
+from cart_products a
+join (select cart_id
+     from cart_products b
+     where name like 'Yogurt') b
+on a.cart_id = b.cart_id
+where a.name like 'Milk'
+order by a.cart_id
