@@ -2,31 +2,27 @@ import java.util.*;
 
 class Solution {
     static char[] alp = {'A','E','I','O','U'};
-    static List<String> lst = new ArrayList<>();
+    static List<String> lst;
+    static int answer, d;
     public int solution(String word) {
-        int answer = 0;
-        dfs(0,"");
-        
-        for(int i=0; i<lst.size(); i++){
-            if(lst.get(i).equals(word)){
-                answer = i;
-                break;
-            }
-        }
+        lst = new ArrayList<>();
+        dfs("", word);
         return answer;
     }
     
-    static void dfs(int d, String now){
+    static void dfs(String now, String word){
         
-        if(d>5){
+        if(now.equals(word)){
+            answer = d;
             return;
         }
         
-        lst.add(now);
-
-        
-        for(int i=0; i<5; i++){
-            dfs(d+1,now+alp[i]);
+        if(now.length() < 5){
+            for(int i=0; i<5; i++){
+                d++;
+                dfs(now+alp[i], word);
+            }
         }
+        
     }
 }
