@@ -1,8 +1,10 @@
-select case
-when month(differentiation_date) between 1 and 3 then '1Q'
-when month(differentiation_date) between 4 and 6 then '2Q'
-when month(differentiation_date) between 7 and 9 then '3Q'
-else '4Q' end as quarter, count(*) as ecoli_count
-from ecoli_data
-group by quarter
-order by quarter
+select a.quarter, count(a.quarter) as ecoli_count
+from (select case
+when month(differentiation_date) >= 1 and month(differentiation_date) <= 3 then '1Q'
+when month(differentiation_date) >= 4 and month(differentiation_date) <= 6 then '2Q'
+when month(differentiation_date) >= 7 and month(differentiation_date) <= 9 then '3Q'
+when month(differentiation_date) >= 10 and month(differentiation_date) <= 12 then '4Q'
+end as quarter
+from ecoli_data) a
+group by a.quarter
+order by a.quarter
