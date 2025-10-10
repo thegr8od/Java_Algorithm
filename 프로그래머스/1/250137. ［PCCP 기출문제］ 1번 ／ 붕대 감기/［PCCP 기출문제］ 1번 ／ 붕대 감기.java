@@ -1,40 +1,43 @@
 class Solution {
+    static int cnt;
     public int solution(int[] bandage, int health, int[][] attacks) {
         int answer = 0;
-        int t = bandage[0]; // t초 동안
-        int x = bandage[1]; // x만큼 회복
-        int y = bandage[2]; // t초 연속 회복시 보너스
-        int time = 1;
-        int atkIdx = 0;
-        int nowH = health;
-        int cnt =0;
-        while(true){
-            int atkTime = attacks[atkIdx][0];
-            int damage = attacks[atkIdx][1];
-            if(time < atkTime) {
-                nowH += x;
-                cnt++;
-                if(cnt==t){
-                    nowH += y;
-                    cnt = 0;
+        int limit = health;
+        int day = bandage[0]; // 얼마나 연속
+        int plus = bandage[1];
+        int bonus = bandage[2];
+        int now = 0;
+        for(int[] attack : attacks){
+            if(now < attack[0]){
+                for(int i = now ; i< attack[0]; i++){
+                    now++;
+                    cnt++;
+                    if(cnt < day){
+                        health += plus;
+                    }
+                    else{
+                        health += bonus;
+                        health += plus;
+                        cnt = 0;
+                    }
+                    
+                    if(health > limit){
+                        health = limit;
+                    }
                 }
-                if(nowH>health) nowH=health;
-               
             }
-            else if(time==atkTime){
-                nowH -= damage;
-                if(nowH <= 0) return -1;
+            
+            if(now == attack[0]){
+                health -= attack[1];
                 cnt = 0;
-                atkIdx++;
-                if(atkIdx == attacks.length){
-                    return nowH;
+                if(health <= 0){
+                    return -1;
                 }
-                
-                
+                now++;
             }
-            time++;
-                
+            
+            
         }
-        
+        return health;
     }
 }
