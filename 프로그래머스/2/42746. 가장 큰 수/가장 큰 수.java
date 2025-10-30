@@ -10,7 +10,6 @@ class Solution {
         }
         
         Arrays.sort(ans, (a,b) -> (b+a).compareTo(a+b));
-        
         for(int i=0; i<ans.length; i++){
             answer += ans[i];
         }
