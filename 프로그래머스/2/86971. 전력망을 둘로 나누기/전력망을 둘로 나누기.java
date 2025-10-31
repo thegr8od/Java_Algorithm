@@ -1,60 +1,56 @@
 import java.util.*;
 
 class Solution {
-    static List<List<Integer>> lst;
     static boolean[] visited;
-    static int d;
+    static List<List<Integer>> lst;
+    static int dist;
     public int solution(int n, int[][] wires) {
-        int answer = 999999;
+        int answer = n;
+        
         lst = new ArrayList<>();
-        for(int i=0; i<=n; i++){
+        
+        for(int i=0; i<=n ;i++){
             lst.add(new ArrayList<>());
         }
-        for(int i=0; i<wires.length; i++){
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
+        
+        for(int[] wire : wires){
+            int a = wire[0];
+            int b = wire[1];
             lst.get(a).add(b);
             lst.get(b).add(a);
         }
         
-        for(int i=0; i<wires.length; i++){
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
+        for(int[] wire : wires){
+            int a = wire[0];
+            int b = wire[1];
             lst.get(a).remove(Integer.valueOf(b));
             lst.get(b).remove(Integer.valueOf(a));
-            
+            dist = 0;
             visited = new boolean[n+1];
+            dfs(a);
+            int v1 = dist;
             
-            d=0;
-            dfs(a, n);
-            int first = d;
+            dist = 0;
+            dfs(b);
+            int v2 = dist;
             
-            d=0;
-            dfs(b, n);
-            int second = d;
-            
-            answer = Math.min(answer,Math.abs(first-second));
-            
+            answer = Math.min(Math.abs(v1-v2), answer);
             lst.get(a).add(b);
             lst.get(b).add(a);
+            
         }
-        
-        
         return answer;
     }
     
-    static void dfs(int now, int n){
+    static void dfs(int now){
         
+        dist++;
         visited[now] = true;
-        d++;
         
-        for(int next : lst.get(now)){
-            if(!visited[next]){
-                dfs(next, n);
+        for(int a : lst.get(now)){
+            if(!visited[a]){
+                dfs(a);
             }
         }
-        
     }
 }
